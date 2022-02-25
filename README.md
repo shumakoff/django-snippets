@@ -43,3 +43,29 @@ In `change_list.html`:
   </script>
 {% endblock %}
 ```
+
+## Admin date/datetime widget time format when clicking on presets like "now"
+
+in template:
+
+```
+  <script type="text/javascript">
+    window.addEventListener('load', function () {
+      DateTimeShortcuts['handleClockQuicklink'] = function (num, val) {
+        var d;
+        if (val == -1) {
+          d = DateTimeShortcuts.now();
+        } else {
+          d = new Date(1970, 1, 1, val, 0, 0, 0)
+        }
+        DateTimeShortcuts.clockInputs[num].value = d.strftime('%H:%M');
+        DateTimeShortcuts.clockInputs[num].focus();
+        DateTimeShortcuts.dismissClock(num);
+      }
+    });
+  </script>
+```
+in form:
+
+`widget=AdminTimeWidget(format='%H:%M'), input_formats=['%H:%M']`
+changes format to '%H:%M' instead of default '%H:%M:%S'
